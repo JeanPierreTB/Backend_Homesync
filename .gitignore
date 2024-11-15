@@ -1,0 +1,23 @@
+
+node_modules/
+/npm-debug.log
+
+# Docker files
+docker-compose.override.yml
+*.env
+
+# Logs
+logs
+*.log
+
+# IDEs and editors
+.vscode/
+.idea/
+.DS_Store
+
+# Build directories
+/dist
+/build
+
+# MacOS
+*.swp

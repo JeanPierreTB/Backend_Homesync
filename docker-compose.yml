@@ -1,0 +1,62 @@
+
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENERS: PLAINTEXT://:9092
+      KAFKA_LOG_RETENTION_HOURS: 168
+    depends_on:
+      - zookeeper
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: homesync_db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+
+  user-service:
+    build:
+      context: ./user-service
+    container_name: user-service
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - KAFKA_BROKER=kafka:9092
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/homesync_db
+    depends_on:
+      - kafka
+      - postgres
+    volumes:
+      - ./user-service:/app
+    command: ["npm", "start"]
+
+  
+
+volumes:
+  postgres-data:
