@@ -1,13 +1,13 @@
 import express from 'express';
 import { AppDataSource } from './database';
-import { Payment} from './Payment';
+import { Request } from './Request';
 import dotenv from 'dotenv';
 import { Kafka } from 'kafkajs';
 
 dotenv.config();
 
 const app = express();
-const port = 3002;
+const port = 3003;
 
 app.use(express.json());  // Permite recibir cuerpos JSON en las peticiones
 
@@ -40,8 +40,8 @@ app.post('/create-user', async (req, res) => {
   const { name, email } = req.body;
 
   // Crear el usuario en la base de datos
-  const userRepository = AppDataSource.getRepository(Payment);
-  const user = new Payment(0, name, email); // Inicializamos 'id' a 0 para un nuevo usuario
+  const userRepository = AppDataSource.getRepository(Request);
+  const user = new Request(0, name, email); // Inicializamos 'id' a 0 para un nuevo usuario
   await userRepository.save(user);
 
   // Enviar mensaje a Kafka sobre el nuevo usuario
@@ -55,5 +55,5 @@ app.post('/create-user', async (req, res) => {
 
 // Iniciar el servidor
 app.listen(port, () => {
-  console.log(`Payment service is running at http://localhost:${port}`);
+  console.log(`Request service is running at http://localhost:${port}`);
 });

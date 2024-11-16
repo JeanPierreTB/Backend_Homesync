@@ -73,6 +73,23 @@ services:
       - ./payment-service:/app
     command: ["npm", "start"]
 
+
+  request-service:
+    build:
+      context: ./request-service
+    container_name: request-service
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=development
+      - KAFKA_BROKER=kafka:9092
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/homesync_db
+    depends_on:
+      - kafka
+      - postgres
+    volumes:
+      - ./request-service:/app
+    command: ["npm", "start"]
   
 
 volumes:
