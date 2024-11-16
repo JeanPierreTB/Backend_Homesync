@@ -90,6 +90,23 @@ services:
     volumes:
       - ./request-service:/app
     command: ["npm", "start"]
+
+  reservation-service:
+    build:
+      context: ./reservation-service
+    container_name: reservation-service
+    ports:
+      - "3004:3004"
+    environment:
+      - NODE_ENV=development
+      - KAFKA_BROKER=kafka:9092
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/homesync_db
+    depends_on:
+      - kafka
+      - postgres
+    volumes:
+      - ./reservation-service:/app
+    command: ["npm", "start"]    
   
 
 volumes:
