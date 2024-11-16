@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { User } from './User';
+import { Payment } from './Payment';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -22,5 +22,5 @@ export const AppDataSource = new DataSource({
   username: DB_USER, 
   password: DB_PASSWORD,  
   database: DB_NAME,  
-  entities: [User],
+  entities: [Payment],
 });
