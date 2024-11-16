@@ -23,4 +23,6 @@ export const AppDataSource = new DataSource({
   password: DB_PASSWORD,  
   database: DB_NAME,  
   entities: [Reservation],
+  synchronize: true, 
+
 });
