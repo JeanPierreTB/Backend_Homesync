@@ -4,7 +4,7 @@ import { Entity, PrimaryGeneratedColumn, Column, TableInheritance } from 'typeor
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
   usuario: string;
@@ -21,8 +21,8 @@ export class User {
   @Column('text')
   foto: string;
 
-  constructor(id: number, usuario: string, correo: string, contrasena: string, telefono: number, foto: string) {
-    this.id = id;
+  // No es necesario incluir 'id' en el constructor, ya que es autoincrementado por TypeORM.
+  constructor(usuario: string, correo: string, contrasena: string, telefono: number, foto: string) {
     this.usuario = usuario;
     this.correo = correo;
     this.contrasena = contrasena;

@@ -9,18 +9,16 @@ dotenv.config();
 const app = express();
 const port = 3003;
 
-app.use(express.json());  // Permite recibir cuerpos JSON en las peticiones
+app.use(express.json());  
 
-// Configuración de la base de datos con TypeORM
 AppDataSource.initialize()
   .then(() => {
     console.log('DataSource has been initialized!');
   })
-  .catch((err: Error) => {  // Aquí especificamos que 'err' es de tipo 'Error'
+  .catch((err: Error) => {  
     console.error('Error during DataSource initialization', err);
   });
 
-// Configuración de Kafka
 const kafka = new Kafka({
   clientId: 'user-service',
   brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
@@ -31,29 +29,25 @@ producer.connect()
   .then(() => {
     console.log('Kafka producer connected');
   })
-  .catch((err: Error) => {  // Aquí también especificamos el tipo de 'err'
+  .catch((err: Error) => { 
     console.error('Error connecting to Kafka:', err);
   });
 
-// Ruta para crear un usuario
-app.post('/create-user', async (req, res) => {
-  const { name, email } = req.body;
+app.post('/create-request', async (req, res) => {
+  const { tipo, descripcion, estado, reservacionId, pagoId } = req.body;
 
-  // Crear el usuario en la base de datos
-  const userRepository = AppDataSource.getRepository(Request);
-  const user = new Request(0, 12,name, email,12,13); // Inicializamos 'id' a 0 para un nuevo usuario
-  await userRepository.save(user);
+  const requestRepository = AppDataSource.getRepository(Request);
+  const request = new Request(tipo, descripcion, estado, reservacionId, pagoId);
+  await requestRepository.save(request);
 
-  // Enviar mensaje a Kafka sobre el nuevo usuario
   await producer.send({
-    topic: 'user-created',
-    messages: [{ value: JSON.stringify({ name, email }) }],
+    topic: 'request-created',
+    messages: [{ value: JSON.stringify({ tipo, descripcion, estado, reservacionId, pagoId }) }],
   });
 
-  res.status(201).send('User created');
+  res.status(201).send('Request created');
 });
 
-// Iniciar el servidor
 app.listen(port, () => {
   console.log(`Request service is running at http://localhost:${port}`);
 });

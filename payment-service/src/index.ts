@@ -9,18 +9,16 @@ dotenv.config();
 const app = express();
 const port = 3002;
 
-app.use(express.json());  // Permite recibir cuerpos JSON en las peticiones
+app.use(express.json());  
 
-// Configuración de la base de datos con TypeORM
 AppDataSource.initialize()
   .then(() => {
     console.log('DataSource has been initialized!');
   })
-  .catch((err: Error) => {  // Aquí especificamos que 'err' es de tipo 'Error'
+  .catch((err: Error) => {  
     console.error('Error during DataSource initialization', err);
   });
 
-// Configuración de Kafka
 const kafka = new Kafka({
   clientId: 'user-service',
   brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
@@ -31,29 +29,27 @@ producer.connect()
   .then(() => {
     console.log('Kafka producer connected');
   })
-  .catch((err: Error) => {  // Aquí también especificamos el tipo de 'err'
+  .catch((err: Error) => {  
     console.error('Error connecting to Kafka:', err);
   });
 
-// Ruta para crear un usuario
-app.post('/create-user', async (req, res) => {
-  const { name, email } = req.body;
 
-  // Crear el usuario en la base de datos
-  const userRepository = AppDataSource.getRepository(Payment);
-  const user = new Payment(0, name, email,12); // Inicializamos 'id' a 0 para un nuevo usuario
-  await userRepository.save(user);
-
-  // Enviar mensaje a Kafka sobre el nuevo usuario
-  await producer.send({
-    topic: 'user-created',
-    messages: [{ value: JSON.stringify({ name, email }) }],
-  });
-
-  res.status(201).send('User created');
+app.post('/create-payment', async (req, res) => {
+    const { monto, fecha_pago, reservation_id } = req.body;
+  
+    const paymentRepository = AppDataSource.getRepository(Payment);
+    const payment = new Payment(monto, fecha_pago, reservation_id);  
+    await paymentRepository.save(payment);
+  
+    await producer.send({
+      topic: 'payment-created',
+      messages: [{ value: JSON.stringify({ monto, fecha_pago, reservation_id }) }],
+    });
+  
+    res.status(201).send('Payment created');
 });
+  
 
-// Iniciar el servidor
 app.listen(port, () => {
   console.log(`Payment service is running at http://localhost:${port}`);
 });

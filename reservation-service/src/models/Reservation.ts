@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity()
 export class Reservation {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column('date')
   fecha_inicio: string;
@@ -18,13 +18,11 @@ export class Reservation {
   departamentoId: number; // Referencia al departamento por ID
 
   constructor(
-    id: number,
     fecha_inicio: string,
     fecha_fin: string,
     clienteId: number,
     departamentoId: number
   ) {
-    this.id = id;
     this.fecha_inicio = fecha_inicio;
     this.fecha_fin = fecha_fin;
     this.clienteId = clienteId;

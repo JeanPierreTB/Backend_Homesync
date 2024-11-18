@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity()
 export class Departamento {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
   imagen:string;
@@ -24,8 +24,7 @@ export class Departamento {
   habitaciones:number;
 
 
-  constructor(id: number,imagen: string, precio:number,descripcion:string,piso:number,aforo:number,habitaciones:number) {
-    this.id = id;
+  constructor(imagen: string, precio:number,descripcion:string,piso:number,aforo:number,habitaciones:number) {
     this.imagen=imagen;
     this.precio=precio;
     this.descripcion=descripcion;

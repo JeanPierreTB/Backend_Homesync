@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { AppDataSource } from './database';
 import dotenv from 'dotenv';
 import { Kafka } from 'kafkajs';
@@ -9,20 +9,18 @@ dotenv.config();
 const app = express();
 const port = 3004;
 
-app.use(express.json());  // Permite recibir cuerpos JSON en las peticiones
+app.use(express.json());
 
-// Configuración de la base de datos con TypeORM
 AppDataSource.initialize()
   .then(() => {
     console.log('DataSource has been initialized!');
   })
-  .catch((err: Error) => {  // Aquí especificamos que 'err' es de tipo 'Error'
+  .catch((err: Error) => {
     console.error('Error during DataSource initialization', err);
   });
 
-// Configuración de Kafka
 const kafka = new Kafka({
-  clientId: 'user-service',
+  clientId: 'reservation-service',
   brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
 });
 const producer = kafka.producer();
@@ -31,29 +29,29 @@ producer.connect()
   .then(() => {
     console.log('Kafka producer connected');
   })
-  .catch((err: Error) => {  // Aquí también especificamos el tipo de 'err'
+  .catch((err: Error) => {
     console.error('Error connecting to Kafka:', err);
   });
 
-// Ruta para crear un usuario
-app.post('/create-user', async (req, res) => {
-  const { imagen,precio,descripcion,number,aforo,habitaciones } = req.body;
+app.post('/create-department', async (req: any, res:any) => {
+  const { imagen, precio, descripcion, piso, aforo, habitaciones } = req.body;
 
-  // Crear el usuario en la base de datos
-  const userRepository = AppDataSource.getRepository(Departamento);
-  const user = new Departamento(0, imagen,precio,descripcion,number,aforo,habitaciones); // Inicializamos 'id' a 0 para un nuevo usuario
-  await userRepository.save(user);
+  if (!imagen || !precio || !descripcion || !piso || !aforo || !habitaciones) {
+    return res.status(400).send('Faltan campos necesarios');
+  }
 
-  // Enviar mensaje a Kafka sobre el nuevo usuario
+  const departmentRepository = AppDataSource.getRepository(Departamento);
+  const departamento = new Departamento(imagen, precio, descripcion, piso, aforo, habitaciones);
+  await departmentRepository.save(departamento);
+
   await producer.send({
-    topic: 'user-created',
-    messages: [{ value: JSON.stringify({ imagen,precio,descripcion,number,aforo,habitaciones}) }],
+    topic: 'department-created',
+    messages: [{ value: JSON.stringify({ imagen, precio, descripcion, piso, aforo, habitaciones }) }],
   });
 
-  res.status(201).send('User created');
+  res.status(201).send('Department created');
 });
 
-// Iniciar el servidor
 app.listen(port, () => {
   console.log(`Reservation service is running at http://localhost:${port}`);
 });

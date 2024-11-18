@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity()
 export class Request {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
   tipo:number;
@@ -20,8 +20,7 @@ export class Request {
   @Column()
   pagoId: number;
 
-  constructor(id: number, tipo: number, descripcion: string, estado: number,reservacionId:number,pagoId:number) {
-    this.id = id;
+  constructor(tipo: number, descripcion: string, estado: number,reservacionId:number,pagoId:number) {
     this.tipo=tipo;
     this.descripcion=descripcion;
     this.estado=estado;

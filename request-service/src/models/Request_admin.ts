@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity()
 export class Request_admin {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column('date')
   fecha:string;
@@ -26,8 +26,7 @@ export class Request_admin {
   @Column()
   AdministradorId: number;
 
-  constructor(id: number,fecha:string,precio:number,tipo_pago:number,estado:number,descripcion:string,id_solicitud:number,id_administrador:number ) {
-    this.id = id;
+  constructor(fecha:string,precio:number,tipo_pago:number,estado:number,descripcion:string,id_solicitud:number,id_administrador:number ) {
     this.fecha=fecha;
     this.precio=precio;
     this.tipo_pago=tipo_pago;
