@@ -1,8 +1,8 @@
 import express from 'express';
 import { AppDataSource } from './database';
-import { Reservation } from './models/Reservation';
 import dotenv from 'dotenv';
 import { Kafka } from 'kafkajs';
+import { Departamento } from './models/Departamento';
 
 dotenv.config();
 
@@ -37,17 +37,17 @@ producer.connect()
 
 // Ruta para crear un usuario
 app.post('/create-user', async (req, res) => {
-  const { name, email } = req.body;
+  const { imagen,precio,descripcion,number,aforo,habitaciones } = req.body;
 
   // Crear el usuario en la base de datos
-  const userRepository = AppDataSource.getRepository(Reservation);
-  const user = new Reservation(0, name, email); // Inicializamos 'id' a 0 para un nuevo usuario
+  const userRepository = AppDataSource.getRepository(Departamento);
+  const user = new Departamento(0, imagen,precio,descripcion,number,aforo,habitaciones); // Inicializamos 'id' a 0 para un nuevo usuario
   await userRepository.save(user);
 
   // Enviar mensaje a Kafka sobre el nuevo usuario
   await producer.send({
     topic: 'user-created',
-    messages: [{ value: JSON.stringify({ name, email }) }],
+    messages: [{ value: JSON.stringify({ imagen,precio,descripcion,number,aforo,habitaciones}) }],
   });
 
   res.status(201).send('User created');

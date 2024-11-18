@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, TableInheritance } from 'typeorm';
 
 @Entity()
+@TableInheritance({ column: { type: 'varchar', name: 'type' } })
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -20,7 +21,7 @@ export class User {
   @Column('text')
   foto: string;
 
-  constructor(id: number,usuario: string,correo: string,contrasena: string,telefono: number,foto: string) {
+  constructor(id: number, usuario: string, correo: string, contrasena: string, telefono: number, foto: string) {
     this.id = id;
     this.usuario = usuario;
     this.correo = correo;
