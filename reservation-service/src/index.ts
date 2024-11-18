@@ -1,6 +1,6 @@
 import express from 'express';
 import { AppDataSource } from './database';
-import { Reservation } from './Reservation';
+import { Reservation } from './models/Reservation';
 import dotenv from 'dotenv';
 import { Kafka } from 'kafkajs';
 

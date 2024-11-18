@@ -41,7 +41,7 @@ app.post('/create-user', async (req, res) => {
 
   // Crear el usuario en la base de datos
   const userRepository = AppDataSource.getRepository(Request);
-  const user = new Request(0, name, email); // Inicializamos 'id' a 0 para un nuevo usuario
+  const user = new Request(0, 12,name, email); // Inicializamos 'id' a 0 para un nuevo usuario
   await userRepository.save(user);
 
   // Enviar mensaje a Kafka sobre el nuevo usuario

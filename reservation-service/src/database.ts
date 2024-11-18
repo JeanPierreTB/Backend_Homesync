@@ -1,6 +1,7 @@
 import { DataSource } from 'typeorm';
-import { Reservation } from './Reservation';
+import { Reservation } from './models/Reservation';
 import dotenv from 'dotenv';
+import { Departamento } from './models/Departamento';
 
 dotenv.config();
 
@@ -22,7 +23,7 @@ export const AppDataSource = new DataSource({
   username: DB_USER, 
   password: DB_PASSWORD,  
   database: DB_NAME,  
-  entities: [Reservation],
+  entities: [Reservation,Departamento],
   synchronize: true, 
 
 });

@@ -6,18 +6,18 @@ export class Request {
   id: number;
 
   @Column()
-  Request: string;
+  tipo:number;
+
+  @Column('text')
+  descripcion:string;
 
   @Column()
-  Request1: string;
+  estado:number
 
-  @Column({ default: true })
-  isActive: boolean;
-
-  constructor(id: number, Request: string, Request1: string, isActive: boolean = true) {
+  constructor(id: number, tipo: number, descripcion: string, estado: number) {
     this.id = id;
-    this.Request = Request;
-    this.Request1 = Request1;
-    this.isActive = isActive;
+    this.tipo=tipo;
+    this.descripcion=descripcion;
+    this.estado=estado;
   }
 }

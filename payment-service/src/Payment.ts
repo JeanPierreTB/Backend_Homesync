@@ -6,18 +6,15 @@ export class Payment {
   id: number;
 
   @Column()
-  pago: string;
+  monto:number;
 
-  @Column()
-  user: string;
+  @Column('date')
+  fecha_pago:string;
 
-  @Column({ default: true })
-  isActive: boolean;
 
-  constructor(id: number, pago: string, user: string, isActive: boolean = true) {
+  constructor(id: number,monto: number, fecha_pago:string) {
     this.id = id;
-    this.pago = pago;
-    this.user = user;
-    this.isActive = isActive;
+    this.monto=monto;
+    this.fecha_pago=fecha_pago;
   }
 }
