@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { AppDataSource } from '../database';
 import { Proveedor } from "../models/Proveedor";
-import { actualizar_contrasena, crear_usuario, iniciar_sesion } from "./User_controller";
+import { actualizar_contrasena, actualizar_datos, crear_usuario, iniciar_sesion } from "./User_controller";
 
 
 export const crearproveedor=async (req:Request,res:Response):Promise<any>=>{
@@ -26,4 +26,17 @@ export const iniciar_sesion_proveedor=async(req:Request,res:Response):Promise<an
     }
 
     return res.status(200).send({res:true,mensaje:"Inicio de sesion exitoso",user:respuesta})
+}
+
+
+export const actualizar_datos_proveedor=async(req:Request,res:Response):Promise<any>=>{
+    const respuesta=await actualizar_datos(Proveedor,req.body);
+    if(respuesta===null){
+        return res.status(403).send({res:false,mensaje:"Usuario no encontrado"})
+
+    }
+
+    return res.status(200).send({res:true,mensaje:"Datos actualizados",user:respuesta})
+
+
 }

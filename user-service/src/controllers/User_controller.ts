@@ -44,3 +44,27 @@ export const iniciar_sesion = async (Tipoclass: any, data: User) => {
 
     return user;
 };
+
+
+export const actualizar_datos=async (Tipoclass:any,data:User)=>{
+    const {usuario,correo,contrasena,telefono,foto,id}=data;
+    const userRepository=AppDataSource.getRepository(Tipoclass);
+
+    const user = await userRepository.findOne({ where: { id } });
+
+    if(!user){
+        return null;
+    }
+
+    user.usuario=usuario;
+    user.correo=correo;
+    user.contrasena=contrasena;
+    user.telefono=telefono;
+    user.foto=foto;
+
+    const response = await userRepository.save(user);
+
+    return response;
+
+
+}

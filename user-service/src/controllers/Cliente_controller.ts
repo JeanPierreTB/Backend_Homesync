@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Cliente } from "../models/Cliente";
-import { actualizar_contrasena, iniciar_sesion } from "./User_controller";
+import { actualizar_contrasena, actualizar_datos, iniciar_sesion } from "./User_controller";
 import { crear_usuario } from "./User_controller";
 
 export const crearcliente = async (req: Request, res: Response): Promise<any> => {
@@ -29,3 +29,16 @@ export const iniciar_sesion_cliente = async (req: Request, res: Response): Promi
         return res.status(200).send({ res: true, mensaje: "Inicio de sesión exitoso", user: respuesta });
     
 };
+
+
+export const actualizar_datos_cliente=async(req:Request,res:Response):Promise<any>=>{
+    const respuesta=await actualizar_datos(Cliente,req.body);
+    if(respuesta===null){
+        return res.status(403).send({res:false,mensaje:"Usuario no encontrado"})
+
+    }
+
+    return res.status(200).send({res:true,mensaje:"Datos actualizados",user:respuesta})
+
+
+}
