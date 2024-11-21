@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { Payment } from './Payment';
+import { Payment } from './models/Payment';
 import dotenv from 'dotenv';
 
 dotenv.config();

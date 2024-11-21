@@ -11,11 +11,14 @@ export class Reservation {
   @Column('date')
   fecha_fin?: string;
 
+
   @Column()
   clienteId?: number; 
 
   @Column()
   departamentoId?: number; 
+
+  
 
   constructor(init: Partial<Reservation>) {
     Object.assign(this, init);

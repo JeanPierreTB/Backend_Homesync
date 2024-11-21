@@ -1,8 +1,8 @@
 import express from 'express';
 import { AppDataSource } from './database';
-import { Payment} from './Payment';
 import dotenv from 'dotenv';
-import { Kafka } from 'kafkajs';
+import { iniciarConsumidor } from './services/Payment_service';  
+import { kafka } from './utils/kafkaClient'; 
 
 dotenv.config();
 
@@ -19,10 +19,6 @@ AppDataSource.initialize()
     console.error('Error during DataSource initialization', err);
   });
 
-const kafka = new Kafka({
-  clientId: 'user-service',
-  brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
-});
 const producer = kafka.producer();
 
 producer.connect()
@@ -33,22 +29,9 @@ producer.connect()
     console.error('Error connecting to Kafka:', err);
   });
 
-
-app.post('/create-payment', async (req, res) => {
-    const { monto, fecha_pago, reservation_id } = req.body;
-  
-    const paymentRepository = AppDataSource.getRepository(Payment);
-    const payment = new Payment(monto, fecha_pago, reservation_id);  
-    await paymentRepository.save(payment);
-  
-    await producer.send({
-      topic: 'payment-created',
-      messages: [{ value: JSON.stringify({ monto, fecha_pago, reservation_id }) }],
-    });
-  
-    res.status(201).send('Payment created');
+iniciarConsumidor().catch((err: any) => {
+  console.error('Error al iniciar el consumidor Kafka:', err);
 });
-  
 
 app.listen(port, () => {
   console.log(`Payment service is running at http://localhost:${port}`);
