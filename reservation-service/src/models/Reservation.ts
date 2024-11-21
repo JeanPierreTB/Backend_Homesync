@@ -6,26 +6,18 @@ export class Reservation {
   id!: number;
 
   @Column('date')
-  fecha_inicio: string;
+  fecha_inicio?: string;
 
   @Column('date')
-  fecha_fin: string;
+  fecha_fin?: string;
 
   @Column()
-  clienteId: number; // Referencia al cliente por ID
+  clienteId?: number; 
 
   @Column()
-  departamentoId: number; // Referencia al departamento por ID
+  departamentoId?: number; 
 
-  constructor(
-    fecha_inicio: string,
-    fecha_fin: string,
-    clienteId: number,
-    departamentoId: number
-  ) {
-    this.fecha_inicio = fecha_inicio;
-    this.fecha_fin = fecha_fin;
-    this.clienteId = clienteId;
-    this.departamentoId = departamentoId;
+  constructor(init: Partial<Reservation>) {
+    Object.assign(this, init);
   }
 }

@@ -6,30 +6,25 @@ export class Departamento {
   id!: number;
 
   @Column()
-  imagen:string;
+  imagen?:string;
 
   @Column('decimal')
-  precio:number;
+  precio?:number;
 
   @Column()
-  descripcion:string;
+  descripcion?:string;
 
   @Column()
-  piso:number;
+  piso?:number;
 
   @Column()
-  aforo:number;
+  aforo?:number;
 
   @Column()
-  habitaciones:number;
+  habitaciones?:number;
 
 
-  constructor(imagen: string, precio:number,descripcion:string,piso:number,aforo:number,habitaciones:number) {
-    this.imagen=imagen;
-    this.precio=precio;
-    this.descripcion=descripcion;
-    this.piso=piso;
-    this.aforo=aforo;
-    this.habitaciones=habitaciones;
+  constructor(init: Partial<Departamento>) {
+    Object.assign(this, init);
   }
 }

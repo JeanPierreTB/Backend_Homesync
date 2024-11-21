@@ -1,8 +1,8 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import { AppDataSource } from './database';
 import dotenv from 'dotenv';
 import { Kafka } from 'kafkajs';
-import { Departamento } from './models/Departamento';
+import router_departamento from './routers/Departamento_router';
 
 dotenv.config();
 
@@ -10,6 +10,8 @@ const app = express();
 const port = 3004;
 
 app.use(express.json());
+
+app.use("/departamento",router_departamento);
 
 AppDataSource.initialize()
   .then(() => {
@@ -33,6 +35,7 @@ producer.connect()
     console.error('Error connecting to Kafka:', err);
   });
 
+  /*
 app.post('/create-department', async (req: any, res:any) => {
   const { imagen, precio, descripcion, piso, aforo, habitaciones } = req.body;
 
@@ -50,7 +53,7 @@ app.post('/create-department', async (req: any, res:any) => {
   });
 
   res.status(201).send('Department created');
-});
+});*/
 
 app.listen(port, () => {
   console.log(`Reservation service is running at http://localhost:${port}`);
