@@ -7,26 +7,21 @@ export class User {
   id!: number;
 
   @Column()
-  usuario: string;
+  usuario?: string;
 
   @Column()
-  correo: string;
+  correo?: string;
 
   @Column()
-  contrasena: string;
+  contrasena?: string;
 
   @Column()
-  telefono: number;
+  telefono?: number;
 
-  @Column('text')
-  foto: string;
+  @Column('text',{nullable:true})
+  foto?: string;
 
-  // No es necesario incluir 'id' en el constructor, ya que es autoincrementado por TypeORM.
-  constructor(usuario: string, correo: string, contrasena: string, telefono: number, foto: string) {
-    this.usuario = usuario;
-    this.correo = correo;
-    this.contrasena = contrasena;
-    this.telefono = telefono;
-    this.foto = foto;
+  constructor(init: Partial<User>) {
+    Object.assign(this, init);
   }
 }
