@@ -2,7 +2,7 @@ import { consumer } from "../utils/kafkaClient"
 
 
 
-export const iniciarconsumidro= async ()=>{
+export const iniciarconsumidor= async ()=>{
     await consumer.connect();
     await consumer.subscribe({ topic: "Request", fromBeginning: true });
     const topicHandlers: Record<string, (message: any) => Promise<void>> = {
@@ -27,5 +27,5 @@ export const iniciarconsumidro= async ()=>{
 
 const procesarsolicitud =async( request:any)=>{
     const {requestid}=request;
-    
+
 }

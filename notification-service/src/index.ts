@@ -1,6 +1,7 @@
 import express from 'express';
 import { AppDataSource } from './database';
 import dotenv from 'dotenv';
+import router_notification from './routers/Notificaction_router';
 
 
 
@@ -10,6 +11,8 @@ const app = express();
 const port = 3005;
 
 app.use(express.json()); 
+
+app.use('/notificaciones',router_notification);
 
 
 
