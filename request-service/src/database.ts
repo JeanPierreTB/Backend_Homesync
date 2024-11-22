@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { Request } from './models/Request';
+import { Request } from './models/RequestC';
 import dotenv from 'dotenv';
 import { Request_admin } from './models/Request_admin';
 
