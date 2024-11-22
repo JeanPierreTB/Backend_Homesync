@@ -29,3 +29,5 @@ export const actualizar_datos_administrador=async(req:Request,res:Response):Prom
 
 
 }
+
+

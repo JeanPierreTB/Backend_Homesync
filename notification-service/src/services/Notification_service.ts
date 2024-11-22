@@ -1,6 +1,7 @@
 import { consumer, producer } from "../utils/kafkaClient"; 
 import { AppDataSource } from "../database"; 
 import { Notification } from "../models/Notification";
+import { Notification_user } from "../models/Notificacion_user";
 
 export const iniciarConsumidor = async () => {  
     await consumer.connect();
@@ -26,9 +27,10 @@ export const iniciarConsumidor = async () => {
 };
 
 const procesarsolicitud = async (reservation: any) => {
-    const { tipo, descripcion } = reservation;
+    const { tipo, descripcion,id } = reservation;
 
     const notificactionRepository = AppDataSource.getRepository(Notification);
+    const notification_userRepository=AppDataSource.getRepository(Notification_user)
 
     const nuevanotificacion = new Notification({
         titulo: "Nueva solicitud",
@@ -36,26 +38,18 @@ const procesarsolicitud = async (reservation: any) => {
         tipo: 0
     });
 
-    await notificactionRepository.save(nuevanotificacion);
+    
+
+    const data=await notificactionRepository.save(nuevanotificacion);
+    const nuevanotficacion_user=new Notification_user({
+        id_user:id,
+        id_notificacion:data.id
+    })
+
+    await notification_userRepository.save(nuevanotficacion_user);
     console.log(`Se agregó una nueva notificación de tipo ${nuevanotificacion.tipo}`);
 
-    try {
-        await producer.send({
-            topic: "Notificacion-solicitud",  
-            messages: [
-                {
-                    value: JSON.stringify({
-                        id: nuevanotificacion.id,
-                        titulo: nuevanotificacion.titulo,
-                        descripcion: nuevanotificacion.descripcion
-                    }),
-                },
-            ],
-        });
-        console.log("Mensaje enviado a Kafka: Notificacion-solicitud");
-    } catch (error) {
-        console.error("Error al enviar mensaje a Kafka:", error);
-    }
+    
 };
 
 

@@ -3,7 +3,7 @@ import { RequestC } from "../models/RequestC";
 import { producer } from "../utils/kafkaClient";
 
 export const crearequestservice=async(data:any)=>{
-    const {tipo,descripcion,reservacionId}=data;
+    const {tipo,descripcion,reservacionId,id}=data;
     const requestRepository=AppDataSource.getRepository(RequestC);
     const requestclass=new RequestC({tipo,descripcion,estado:2,reservacionId});
     await requestRepository.save(requestclass);
@@ -14,6 +14,7 @@ export const crearequestservice=async(data:any)=>{
     messages:[
         {
             value:JSON.stringify({
+                userid:id,
                 requestid:requestclass.id,
                 tipo:tipo,
                 descripcion:descripcion

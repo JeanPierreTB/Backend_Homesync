@@ -12,11 +12,11 @@ export const generar_solicitud=async(req:Request,res:Response):Promise<any>=>{
 }
 
 
-export const obtener_solicitudes=async(req:Request,res:Response):Promise<any>=>{
-
+export const obtener_solicitudes_cliente=async(req:Request,res:Response):Promise<any>=>{
+    const {id}=req.body;
 
     const requestRepository=AppDataSource.getRepository(RequestC);
-    const requestclass=await requestRepository.find();
+    const requestclass=await requestRepository.find({where:{id}});
 
     if(requestclass.length===0){
         return res.status(403).send({res:false,mensaje:"No se encontro solicitudes"})
@@ -25,3 +25,18 @@ export const obtener_solicitudes=async(req:Request,res:Response):Promise<any>=>{
     return res.status(200).send({res:true,mensaje:"Solicitudes encontradas",requestclass:requestclass})
     
 }
+
+export const obtener_solicitudes_proveedor=async(req:Request,res:Response):Promise<any>=>{
+    const requestRepository=AppDataSource.getRepository(RequestC);
+    const requestclass=await requestRepository.find({where:{estado:2}});
+
+    if(requestclass.length===0){
+        return res.status(403).send({res:false,mensaje:"No se encontro solicitudes"})
+    }
+
+    return res.status(200).send({res:true,mensaje:"Solicitudes encontradas",requestclass:requestclass})
+}
+
+
+
+

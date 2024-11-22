@@ -6,34 +6,27 @@ export class Request_admin {
   id!: number;
 
   @Column('date')
-  fecha:string;
+  fecha?:string;
 
   @Column('decimal')
-  precio:number
+  precio?:number
 
   @Column()
-  tipo_pago:number
+  tipo_pago?:number
 
   @Column()
-  estado:number
+  estado?:boolean
 
   @Column('text')
-  descripcion:string
+  descripcion?:string
 
   @Column()
-  SolicitudId: number; 
+  SolicitudId?: number; 
 
   @Column()
-  AdministradorId: number;
+  AdministradorId?: number;
 
-  constructor(fecha:string,precio:number,tipo_pago:number,estado:number,descripcion:string,id_solicitud:number,id_administrador:number ) {
-    this.fecha=fecha;
-    this.precio=precio;
-    this.tipo_pago=tipo_pago;
-    this.estado=estado;
-    this.descripcion=descripcion;
-    this.SolicitudId=id_solicitud;
-    this.AdministradorId=id_administrador
-   
+  constructor(init: Partial<Request_admin>) {
+    Object.assign(this, init);
   }
 }

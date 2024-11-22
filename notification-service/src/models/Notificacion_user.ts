@@ -1,23 +1,18 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
-export class Notification {
+export class Notification_user {
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()
-  titulo?:string;
+  id_user?:string;
 
   @Column()
-  descripcion?:string;
-
-  @Column()
-  tipo?:number;
+  id_notificacion?:number
 
 
-
-
-  constructor(init: Partial<Notification>) {
+  constructor(init: Partial<Notification_user>) {
     Object.assign(this, init);
   }
 }
