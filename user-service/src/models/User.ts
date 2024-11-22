@@ -21,6 +21,9 @@ export class User {
   @Column('text',{nullable:true})
   foto?: string;
 
+  @Column({nullable:true})
+  notificationid?:number;
+
   constructor(init: Partial<User>) {
     Object.assign(this, init);
   }

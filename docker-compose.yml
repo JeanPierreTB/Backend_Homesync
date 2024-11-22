@@ -106,7 +106,26 @@ services:
       - postgres
     volumes:
       - ./reservation-service:/app
-    command: ["npm", "start"]    
+    command: ["npm", "start"]   
+
+  notification-service:
+    build:
+      context: ./notification-service
+    container_name: notification-service
+    ports:
+      - "3005:3005"
+    environment:
+      - NODE_ENV=development
+      - KAFKA_BROKER=kafka:9092
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/homesync_db
+    depends_on:
+      - kafka
+      - postgres
+    volumes:
+      - ./notification-service:/app
+    command: ["npm", "start"]  
+
+
   
 
 volumes:

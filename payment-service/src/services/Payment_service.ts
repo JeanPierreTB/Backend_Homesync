@@ -5,7 +5,6 @@ import { Payment } from "../models/Payment";
 export const iniciarConsumidor = async () => {  
     await consumer.connect();
     await consumer.subscribe({ topic: "reservations", fromBeginning: true });
-    await consumer.subscribe({ topic: "Request", fromBeginning: true });
 
     const topicHandlers: Record<string, (message: any) => Promise<void>> = {
         "reservations": procesarPago

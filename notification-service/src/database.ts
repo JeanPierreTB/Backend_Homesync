@@ -1,7 +1,6 @@
 import { DataSource } from 'typeorm';
-import { RequestC } from './models/RequestC';
 import dotenv from 'dotenv';
-import { Request_admin } from './models/Request_admin';
+import { Notification } from './models/Notification';
 
 dotenv.config();
 
@@ -23,7 +22,6 @@ export const AppDataSource = new DataSource({
   username: DB_USER, 
   password: DB_PASSWORD,  
   database: DB_NAME,  
-  entities: [RequestC,Request_admin],
+  entities: [Notification],
   synchronize: true,  
-
 });
