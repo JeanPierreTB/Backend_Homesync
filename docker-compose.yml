@@ -123,10 +123,42 @@ services:
       - postgres
     volumes:
       - ./notification-service:/app
-    command: ["npm", "start"]  
+    command: ["npm", "start"]
 
-
+  capital-service:
+    build:
+      context: ./capital-service
+    container_name: capital-service
+    ports:
+      - "3006:3006"
+    environment:
+      - NODE_ENV=development
+      - KAFKA_BROKER=kafka:9092
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/homesync_db
+    depends_on:
+      - kafka
+      - postgres
+    volumes:
+      - ./capital-service:/app
+    command: ["npm", "start"]
   
+  inquilin-service:
+    build:
+      context: ./inquilin-service
+    container_name: inquilin-service
+    ports:
+      - "3007:3007"
+    environment:
+      - NODE_ENV=development
+      - KAFKA_BROKER=kafka:9092
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/homesync_db
+    depends_on:
+      - kafka
+      - postgres
+    volumes:
+      - ./inquilin-service:/app
+    command: ["npm", "start"]
+
 
 volumes:
   postgres-data:
