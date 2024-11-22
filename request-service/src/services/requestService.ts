@@ -14,7 +14,9 @@ export const crearequestservice=async(data:any)=>{
     messages:[
         {
             value:JSON.stringify({
-                requestid:requestclass.id
+                requestid:requestclass.id,
+                tipo:tipo,
+                descripcion:descripcion
             })
         }
     ]

@@ -6,3 +6,4 @@ export const kafka = new Kafka({
 });
 
 export const consumer = kafka.consumer({ groupId: "notification-group" });
+export const producer = kafka.producer(); 
