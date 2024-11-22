@@ -12,22 +12,16 @@ export const generar_solicitud=async(req:Request,res:Response):Promise<any>=>{
 }
 
 
-export const obtener_solicitudes=async (req:Request,res:Response):Promise<any>=>{
-    const requestRepository=AppDataSource.getRepository(RequestC);
-    const resultado=await requestRepository.find({
-        where:{
-            estado:2
-        }
-    });
+export const obtener_solicitudes=async(req:Request,res:Response):Promise<any>=>{
 
-    if(resultado.length===0){
-        return res.status(403).send({res:false,mensaje:"No hay solicitudes pendientes"})
+
+    const requestRepository=AppDataSource.getRepository(RequestC);
+    const requestclass=await requestRepository.find();
+
+    if(requestclass.length===0){
+        return res.status(403).send({res:false,mensaje:"No se encontro solicitudes"})
     }
 
-    return res.status(200).json({res:true,mensaje:"Solicitudes pendientes",resultado:resultado})
-
-
-
-
-
+    return res.status(200).send({res:true,mensaje:"Solicitudes encontradas",requestclass:requestclass})
+    
 }

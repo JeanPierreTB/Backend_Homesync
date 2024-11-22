@@ -7,7 +7,9 @@ export const crear_usuario=async(Tipoclass:any,data:User)=>{
     const {usuario,correo,contrasena,telefono}=data;
     const userRepository=AppDataSource.getRepository(Tipoclass);
     const userclass= new Tipoclass({usuario,correo,contrasena,telefono});
-    const response=await userRepository.save(userclass);
+    
+    const response = await userRepository.save(userclass);
+    
     return response;
 
 }

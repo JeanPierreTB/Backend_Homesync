@@ -6,10 +6,8 @@ export class Proveedor extends User {
   @Column({ type: 'integer', nullable: true })
   id_solicitud_admin?: number | null;
 
-  constructor(init: Partial<User> ,id_solicitud_admin=null ) {
-    super(init); 
-    
-    this.id_solicitud_admin = id_solicitud_admin
+  constructor(init: Partial<User>, id_solicitud_admin = null) {
+    super(init);  
+    this.id_solicitud_admin = id_solicitud_admin;
   }
 }
-

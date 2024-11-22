@@ -1,10 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, TableInheritance } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, TableInheritance } from 'typeorm'; 
 
 @Entity()
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
 export class User {
-  @PrimaryGeneratedColumn()
-  id!: number;
+  @PrimaryGeneratedColumn('uuid') 
+  id!: string;
 
   @Column()
   usuario?: string;
@@ -18,11 +18,8 @@ export class User {
   @Column()
   telefono?: number;
 
-  @Column('text',{nullable:true})
+  @Column('text', { nullable: true })
   foto?: string;
-
-  @Column({nullable:true})
-  notificationid?:number;
 
   constructor(init: Partial<User>) {
     Object.assign(this, init);
