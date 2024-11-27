@@ -26,7 +26,7 @@ export const iniciar_sesion_cliente = async (req: Request, res: Response): Promi
         if (respuesta === null) {
             return res.status(403).send({ res: false, mensaje: "Usuario no encontrado" });
         }
-        return res.status(200).send({ res: true, mensaje: "Inicio de sesión exitoso", user: respuesta });
+        return res.status(200).send({ res: true, mensaje: "Inicio de sesión exitoso", user:"Cliente" ,id:respuesta.id});
     
 };
 

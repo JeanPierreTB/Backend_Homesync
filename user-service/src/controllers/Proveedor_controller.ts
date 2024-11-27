@@ -25,7 +25,7 @@ export const iniciar_sesion_proveedor=async(req:Request,res:Response):Promise<an
         return res.status(403).send({res:false,mensaje:"Usuario no encontrado"})
     }
 
-    return res.status(200).send({res:true,mensaje:"Inicio de sesion exitoso",user:respuesta})
+    return res.status(200).send({res:true,mensaje:"Inicio de sesion exitoso",user:"Proveedor",id:respuesta.id})
 }
 
 

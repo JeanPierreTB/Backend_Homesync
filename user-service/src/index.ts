@@ -29,8 +29,6 @@ AppDataSource.initialize()
 
 
 
-
-
 app.listen(port, () => {
   console.log(`User service is running at http://localhost:${port}`);
 });
