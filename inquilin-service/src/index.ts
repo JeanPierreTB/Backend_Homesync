@@ -2,6 +2,7 @@ import express from 'express';
 import { AppDataSource } from './database';
 import dotenv from 'dotenv';
 import { kafka } from './utils/kafkaClient';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -9,7 +10,7 @@ const app = express();
 const port = 3007;
 
 app.use(express.json()); 
-
+app.use(cors());
 
 AppDataSource.initialize()
   .then(() => {

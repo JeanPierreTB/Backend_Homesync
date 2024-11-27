@@ -4,13 +4,16 @@ import dotenv from 'dotenv';
 import { iniciarConsumidor } from './services/Payment_service';  
 import { kafka } from './utils/kafkaClient'; 
 import router_pago from './routers/Payment_router';
+import cors from 'cors';
+
 
 dotenv.config();
 
 const app = express();
 const port = 3002;
 
-app.use(express.json());  
+app.use(express.json()); 
+app.use(cors());
 
 app.use('/pagos',router_pago);
 

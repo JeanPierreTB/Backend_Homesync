@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import router_notification from './routers/Notificaction_router';
 import { kafka } from './utils/kafkaClient';
 import { iniciarConsumidor } from './services/Notification_service';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ const app = express();
 const port = 3005;
 
 app.use(express.json()); 
+app.use(cors());
 
 app.use('/notificaciones',router_notification);
 

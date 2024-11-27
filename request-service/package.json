@@ -3,15 +3,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-  "start": "ts-node src/index.ts",
-  "build": "tsc",
-  "dev": "ts-node-dev --respawn src/index.ts"
-},
+    "start": "ts-node src/index.ts",
+    "build": "tsc",
+    "dev": "ts-node-dev --respawn src/index.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.21.1",
     "kafkajs": "^2.2.4",
     "pg": "^8.13.1",
@@ -19,6 +20,7 @@
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.9.0",
     "@types/pg": "^8.11.10",
