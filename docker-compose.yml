@@ -23,6 +23,8 @@ services:
     container_name: postgres
     ports:
       - "5433:5432"
+    networks:
+      - app-network
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -42,6 +44,8 @@ services:
     build:
       context: ./user-service
     container_name: user-service
+    networks:
+      - app-network
     ports:
       - "3001:3001"
     environment:
