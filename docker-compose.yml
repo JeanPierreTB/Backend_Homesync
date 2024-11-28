@@ -4,12 +4,16 @@ services:
     container_name: zookeeper
     ports:
       - "2181:2181"
+    networks:
+      - app-network
 
   kafka:
     image: wurstmeister/kafka:latest
     container_name: kafka
     ports:
       - "9092:9092"
+    networks:
+      - app-network
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
@@ -65,6 +69,8 @@ services:
     container_name: payment-service
     ports:
       - "3002:3002"
+    networks:
+      - app-network
     environment:
       - NODE_ENV=development
       - KAFKA_BROKER=kafka:9092
@@ -83,6 +89,8 @@ services:
     container_name: request-service
     ports:
       - "3003:3003"
+    networks:
+      - app-network
     environment:
       - NODE_ENV=development
       - KAFKA_BROKER=kafka:9092
@@ -100,6 +108,8 @@ services:
     container_name: reservation-service
     ports:
       - "3004:3004"
+    networks:
+      - app-network
     environment:
       - NODE_ENV=development
       - KAFKA_BROKER=kafka:9092
@@ -117,6 +127,8 @@ services:
     container_name: notification-service
     ports:
       - "3005:3005"
+    networks:
+      - app-network
     environment:
       - NODE_ENV=development
       - KAFKA_BROKER=kafka:9092
@@ -134,6 +146,8 @@ services:
     container_name: capital-service
     ports:
       - "3006:3006"
+    networks:
+      - app-network
     environment:
       - NODE_ENV=development
       - KAFKA_BROKER=kafka:9092
@@ -151,6 +165,8 @@ services:
     container_name: inquilin-service
     ports:
       - "3007:3007"
+    networks:
+      - app-network
     environment:
       - NODE_ENV=development
       - KAFKA_BROKER=kafka:9092
